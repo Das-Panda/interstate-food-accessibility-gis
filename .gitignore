@@ -1,4 +1,4 @@
-# Python bytecode
+# Python
 __pycache__/
 *.pyc
 *.pyo
@@ -13,11 +13,15 @@ env/
 .DS_Store
 Thumbs.db
 
-# QGIS project backup files
+# IDE
+.vscode/
+.idea/
+
+# QGIS backups
 *.qgs~
 *.qgz~
 
-# Jupyter notebooks checkpoints
+# Jupyter
 .ipynb_checkpoints/
 
 # Logs
@@ -26,15 +30,10 @@ Thumbs.db
 # Temporary files
 *.tmp
 
-# VS Code
-.vscode/
-
-# PyCharm
-.idea/
-
-# Data files that may become very large
+# Large raw data (avoid committing large API responses)
 data/raw_osm_states/*.json
 data/raw_osm_state_exits/*.json
 
-# Ignore compiled files
-*.so
+# Generated outputs (optional)
+outputs/*.geojson
+outputs/*.csv
