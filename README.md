@@ -355,6 +355,7 @@ interstate-food-accessibility-gis
 ├── requirements.txt
 ├── .gitignore
 └── README.md
+```
 
 Expected Outputs
 
@@ -595,5 +596,6 @@ transportation and infrastructure GIS roles
 spatial data engineering roles
 
 graduate research opportunities
+
 
 geospatial consulting and applied GIS work
