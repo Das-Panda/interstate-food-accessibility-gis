@@ -2,3 +2,5 @@ pandas
 requests
 geopandas
 shapely
+fiona
+pyproj
