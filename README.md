@@ -49,19 +49,13 @@ These occur mainly across:
 - Arizona
 
 ---
+## Example Map
 
-# Example Map
-
-The map highlights segments of interstate corridors where **drivers may encounter long distances between accessible restaurants**.
-
-Red segments represent **food deserts (>50 miles between restaurants)**.
-
-```
 The map below highlights segments of interstate corridors where drivers may encounter long distances between accessible restaurants.
 
-![Interstate Food Deserts]([maps/interstate_food_deserts.png](https://github.com/Das-Panda/interstate-food-accessibility-gis/blob/main/maps/interstate_food_deserts.png?raw=true))
-```
+Red segments represent **food deserts (> 50 miles between restaurants).**
 
+![Interstate Food Deserts](maps/interstate_food_deserts.png)
 ---
 
 # Project Workflow
@@ -331,6 +325,7 @@ This project demonstrates how **Python GIS pipelines can scale to national datas
 while automatically detecting infrastructure service gaps.
 
 It serves as an example of **large-scale geospatial data science applied to transportation accessibility.**
+
 
 
 
