@@ -57,8 +57,9 @@ The map highlights segments of interstate corridors where **drivers may encounte
 Red segments represent **food deserts (>50 miles between restaurants)**.
 
 ```
-(Add exported map image here)
-![Interstate Food Deserts](https://raw.githubusercontent.com/Das-Panda/interstate-food-accessibility-gis/main/maps/interstate_food_deserts.png)
+The map below highlights segments of interstate corridors where drivers may encounter long distances between accessible restaurants.
+
+![Interstate Food Deserts](maps/interstate_food_deserts.png)
 ```
 
 ---
@@ -330,6 +331,7 @@ This project demonstrates how **Python GIS pipelines can scale to national datas
 while automatically detecting infrastructure service gaps.
 
 It serves as an example of **large-scale geospatial data science applied to transportation accessibility.**
+
 
 
 
