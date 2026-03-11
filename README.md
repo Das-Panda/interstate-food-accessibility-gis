@@ -1,531 +1,332 @@
-# Interstate Food Accessibility Analysis (Python + GIS)
+# Interstate Food Accessibility Analysis (United States)
 
-## Overview
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![GeoPandas](https://img.shields.io/badge/GeoPandas-Geospatial-green.svg)
+![GIS](https://img.shields.io/badge/GIS-Spatial%20Analysis-orange.svg)
+![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)
 
-This project analyzes the spatial accessibility of food services along major **east–west interstate transportation corridors** in the United States using **Python-based geospatial data engineering and GIS analysis**.
+A national-scale geospatial analysis project that identifies **long stretches of U.S. interstate highways where drivers may travel large distances without access to nearby restaurants**.
 
-The workflow automatically collects restaurant and interstate exit data from **OpenStreetMap** using the **Overpass API**, then performs spatial analysis to evaluate how easily travelers can access food services along long-distance interstate routes.
+This project analyzes restaurant accessibility along **major east–west interstate corridors** using **Python, GeoPandas, and QGIS**.
 
-This repository is designed to demonstrate a **reproducible geospatial data pipeline** that integrates:
-
-- Python data collection
-- spatial data engineering
-- GIS-based corridor analysis
-- transportation accessibility modeling
-- automated geospatial workflows
-
-The project functions as both a **graduate-level GIS research project** and a **professional portfolio demonstration** of Python and geospatial analysis skills.
+The analysis identifies **“interstate food deserts”** — highway segments where drivers must travel **more than 50 miles between restaurants located within 2 miles of the interstate corridor.**
 
 ---
 
-# Research Questions
+# Project Motivation
 
-### Primary Question
+Long-distance drivers rely on highway exits for food, fuel, and services.  
+In many rural regions of the United States — particularly in the **West and Great Plains** — services can be extremely sparse.
 
-How accessible are food services to travelers along major interstate transportation corridors in the United States?
+This project explores:
 
-### Supporting Questions
+- How accessible restaurants are along interstate corridors
+- Where **service deserts** occur
+- Which highways contain the **largest accessibility gaps**
 
-- Which interstate corridors have the highest density of food services?
-- Which interstate exits provide reliable access to nearby restaurants?
-- Where are the longest travel gaps between accessible food-service locations?
-- Are there geographic regions where travelers encounter **food-service deserts**?
-- How can automated geospatial pipelines support long-term accessibility monitoring?
-
----
-
-# Study Area
-
-This project focuses on major **east–west interstate highways** across the continental United States:
-
-- I-10  
-- I-20  
-- I-30  
-- I-40  
-- I-70  
-- I-80  
-- I-90  
-
-These routes represent major long-distance transportation corridors used for:
-
-- freight movement
-- tourism
-- interstate travel
-- economic connectivity
-
-Future expansions may include **north–south interstates** and additional transportation infrastructure layers.
+The project demonstrates how **Python-based GIS pipelines can scale to national datasets with hundreds of thousands of spatial features.**
 
 ---
 
-# Project Goals
+# Example Result
 
-The project was designed with four primary goals:
+Some western interstates contain **extremely long gaps between accessible restaurants**.
 
-1. Build a **national restaurant dataset** using automated OpenStreetMap collection.
-2. Build a matching **national interstate exit dataset**.
-3. Analyze food accessibility along interstate corridors using spatial GIS analysis.
-4. Create a **reproducible pipeline** that can be rerun in future years to detect new locations.
+| Interstate | Longest Gap |
+|------------|-------------|
+| I-70 | 193 miles |
+| I-90 | 165 miles |
+| I-40 | 152 miles |
+| I-80 | 128 miles |
+| I-10 | 117 miles |
+
+These occur mainly across:
+
+- Utah
+- Nevada
+- Wyoming
+- Montana
+- Arizona
 
 ---
 
-# Data Sources
+# Example Map
 
-## Interstate Highways
+The map highlights segments of interstate corridors where **drivers may encounter long distances between accessible restaurants**.
 
-Interstate highway geometries are sourced from:
-
-- **U.S. Census TIGER/Line datasets**
-
-These datasets provide the base network for corridor analysis.
-
----
-
-## Interstate Exits
-
-Interstate exit locations are collected from **OpenStreetMap** using the Overpass API.
-
-Primary query feature:
+Red segments represent **food deserts (>50 miles between restaurants)**.
 
 ```
-highway = motorway_junction
+(Add exported map image here)
+maps/interstate_food_deserts.png
 ```
 
-These nodes represent official motorway or interstate exits.
-
 ---
 
-## Restaurant Locations
+# Project Workflow
 
-Restaurant locations are collected from **OpenStreetMap** using:
+```mermaid
+flowchart TD
 
+A[Download National Road Network] --> B[Extract East-West Interstates]
+
+B --> C[Create 2-Mile Corridor Buffers]
+
+C --> D[Load Restaurant Dataset]
+
+D --> E[Spatial Join: Restaurants near Interstate]
+
+E --> F[Compute Distances Between Restaurants]
+
+F --> G[Detect Gaps > 50 Miles]
+
+G --> H[Generate Food Desert Segments]
+
+H --> I[Visualize Results in QGIS]
 ```
-amenity = fast_food
-amenity = restaurant
-```
-
-This captures a broad range of food-service locations including:
-
-- fast-food chains
-- quick-service restaurants
-- independent restaurants
-- highway-adjacent diners
 
 ---
 
-# Data Collection Design
+# Technologies Used
 
-Instead of attempting a single nationwide query, the project collects data **state-by-state**.
+### Programming
 
-This design improves reliability and scalability because it:
+- Python
+- GeoPandas
+- Pandas
+- Shapely
+- PyProj
+- Rtree
 
-- avoids large API timeouts
-- allows incremental dataset refresh
-- preserves raw API responses
-- simplifies debugging and updates
-- enables long-term dataset maintenance
+### GIS Software
 
-Each collector script performs the following workflow:
+- QGIS
 
-1. Query OpenStreetMap for a single state.
-2. Save the raw JSON response.
-3. Convert the response into a cleaned CSV.
-4. Store the state dataset.
-5. Merge all state datasets into a national dataset.
+### Data Sources
 
----
-
-# Incremental Dataset Refresh
-
-The project includes a **refresh log system** that tracks when each state dataset was last collected.
-
-When the pipeline is rerun later:
-
-- recently refreshed states can be skipped
-- older states can be refreshed
-- newly added restaurants or exits are incorporated
-
-This allows the project to function as a **living dataset** rather than a one-time snapshot.
-
----
-
-# Methodology
-
-## 1. Automated Data Collection
-
-Python scripts collect restaurant and interstate exit data from OpenStreetMap using the Overpass API.
-
-This step creates the base national datasets.
-
----
-
-## 2. Raw Data Archiving
-
-Each API response is saved as raw JSON to ensure:
-
-- reproducibility
-- traceability
-- debugging capability
-- transparency of source data
-
----
-
-## 3. Data Cleaning and Standardization
-
-Collected data is standardized into consistent CSV datasets.
-
-Typical cleaning tasks include:
-
-- removing duplicate features
-- validating coordinates
-- standardizing text attributes
-- constructing display names
-- preserving the newest version of OSM features
-
----
-
-## 4. Interstate Corridor Analysis
-
-Major interstate highways are buffered by **2 miles** to represent a realistic service-access zone.
-
-Restaurants inside these buffers are classified as **accessible from the interstate corridor**.
-
----
-
-## 5. Exit Accessibility Analysis
-
-Interstate exits are buffered by **2 miles** to identify food services reachable shortly after leaving the highway.
-
-This distinguishes:
-
-- corridor-level accessibility
-- exit-based accessibility
-
----
-
-## 6. Distance Analysis
-
-The distance module calculates the nearest distance from each restaurant to:
-
-- the nearest interstate corridor
-- the nearest interstate exit
-
-Outputs include:
-
-- straight-line distance measures
-- accessibility rankings
-
----
-
-## 7. Travel Gap Analysis
-
-Distances between accessible restaurants along interstate corridors are evaluated.
-
-Large distances between food-service locations indicate **service gaps for travelers**.
-
----
-
-## 8. Food Desert Detection
-
-The project identifies long interstate segments where food access is limited.
-
-Restaurants accessible from the corridor are projected onto each interstate line.
-
-Segments exceeding **50 miles** between food-service opportunities are classified as potential:
-
-> **Food deserts for interstate travelers**
-
----
-
-## 9. Network-Based Accessibility Analysis
-
-A network analysis module uses the **OpenStreetMap drivable road network** to calculate real travel distances.
-
-This step estimates:
-
-- drive distance to nearest restaurant
-- drive time to nearest restaurant
-- exits with poor real-world accessibility
-
-This provides more realistic results than straight-line distance alone.
-
----
-
-## 10. GIS Visualization
-
-Outputs are visualized in **QGIS** using:
-
-- corridor maps
-- exit accessibility maps
-- restaurant density heatmaps
-- food desert gap maps
-- drive-distance accessibility maps
-
----
-
-# Scripts
-
-### collect_osm_restaurants_by_state.py
-
-Builds the national restaurant dataset from OpenStreetMap.
-
-Outputs:
-
-- per-state restaurant CSV files
-- raw JSON responses
-- national `restaurants.csv`
-- refresh logs
-
----
-
-### collect_interstate_exits_by_state.py
-
-Builds the national interstate exit dataset.
-
-Outputs:
-
-- per-state exit CSV files
-- raw JSON responses
-- national `interstate_exits.csv`
-- refresh logs
-
----
-
-### corridor_analysis.py
-
-Performs corridor-based accessibility analysis.
-
-Responsibilities include:
-
-- selecting major interstate routes
-- creating corridor buffers
-- identifying accessible restaurants
-- generating summary tables
-
----
-
-### distance_analysis.py
-
-Calculates nearest distances between restaurants and transportation infrastructure.
-
-Outputs include:
-
-- distance to nearest interstate
-- distance to nearest exit
-
----
-
-### food_desert_detection.py
-
-Identifies long interstate segments with limited food access.
-
-Outputs:
-
-- gap segment maps
-- desert segment classifications
-- interstate gap statistics
-
----
-
-### network_access_analysis.py
-
-Performs network-based accessibility analysis using a drivable road network.
-
-Outputs:
-
-- nearest restaurant by driving route
-- drive distance and travel time from exits
-- network-based food-desert indicators
-
----
-
-### run_pipeline.py
-
-Runs the entire workflow automatically.
+- US Census **TIGER/Line Primary Roads**
+- **OpenStreetMap** Restaurant Points
+- **OpenStreetMap** Interstate Exit Data
 
 ---
 
 # Repository Structure
 
 ```
-interstate-food-accessibility-gis
+interstate_food_accessibility_gis/
+
+data/
 │
-├── data
-│   ├── restaurants.csv
-│   ├── interstate_exits.csv
-│   ├── state_refresh_log.csv
-│   ├── state_exit_refresh_log.csv
+├── tl_2023_us_primaryroads/
+├── restaurants.geojson
+├── interstate_exits.geojson
+
+scripts/
 │
-│   ├── states
-│   ├── state_exits
-│   ├── raw_osm_states
-│   └── raw_osm_state_exits
+├── corridor_analysis.py
+├── distance_analysis.py
+├── food_desert_detection.py
+
+outputs/
 │
-├── scripts
-│   ├── collect_osm_restaurants_by_state.py
-│   ├── collect_interstate_exits_by_state.py
-│   ├── corridor_analysis.py
-│   ├── distance_analysis.py
-│   ├── food_desert_detection.py
-│   ├── network_access_analysis.py
-│   └── clean_data.py
+├── east_west_interstates.geojson
+├── east_west_interstate_buffer_2mi.geojson
+├── interstate_exit_buffer_2mi.geojson
+├── restaurants_near_corridor.geojson
+├── restaurants_near_exits.geojson
+├── restaurant_distance_analysis.geojson
+├── food_desert_gap_segments.geojson
+├── food_desert_summary.csv
+
+maps/
 │
-├── qgis
-│   └── interstate_analysis.qgz
-│
-├── outputs
-│
-├── run_pipeline.py
-├── requirements.txt
-└── README.md
+└── interstate_food_deserts.png
+
+README.md
+requirements.txt
 ```
 
 ---
 
-# Example Outputs
+# Installation
 
-The pipeline generates multiple datasets including:
+Clone the repository:
 
-- restaurants near interstate corridors
-- restaurants near interstate exits
-- corridor accessibility summaries
-- exit accessibility summaries
-- restaurant distance analysis
-- interstate food desert segments
-- network-based accessibility results
-
-These outputs can be used directly in **QGIS** for visualization and mapping.
-
----
-
-# Tools Used
-
-### Python
-
-- pandas
-- requests
-- geopandas
-- shapely
-- networkx
-- osmnx
-- pyproj
-- fiona
-
-### GIS
-
-- QGIS
-
-### Data Sources
-
-- OpenStreetMap Overpass API
-- U.S. Census TIGER/Line
-
----
-
-# Skills Demonstrated
-
-This project demonstrates expertise in:
-
-### Geospatial Data Engineering
-
-- automated API data collection
-- scalable spatial pipelines
-- incremental dataset refresh workflows
-
-### GIS Analysis
-
-- corridor buffering
-- spatial joins
-- density analysis
-- nearest-distance modeling
-- network-based accessibility analysis
-
-### Research Design
-
-- transportation geography
-- service accessibility modeling
-- infrastructure support analysis
-
----
-
-# Applications
-
-This analysis is relevant to:
-
-- transportation planning
-- logistics network analysis
-- truck stop planning
-- retail site selection
-- tourism infrastructure planning
-- EV charging network placement
-- roadside service accessibility studies
-
----
-
-# Running the Project
+```bash
+git clone https://github.com/yourusername/interstate_food_accessibility_gis.git
+cd interstate_food_accessibility_gis
+```
 
 Install dependencies:
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
-Run the full pipeline:
+---
 
-```
-python run_pipeline.py
-```
+# Running the Analysis
 
-The pipeline will automatically:
-
-1. Collect restaurant locations
-2. Collect interstate exit locations
-3. Run corridor accessibility analysis
-4. Run distance analysis
-5. Detect food desert segments
-6. Perform network accessibility analysis
-
-Outputs will be written to the **data** and **outputs** directories.
+The project runs as a **three-stage pipeline**.
 
 ---
 
-# Future Improvements
+## 1️⃣ Corridor Accessibility Analysis
 
-Potential project expansions include:
+```bash
+python scripts/corridor_analysis.py
+```
 
-- adding north–south interstates
-- incorporating traffic volume datasets
-- performing full network routing analysis
-- integrating gas stations and truck stops
-- adding EV charging infrastructure analysis
-- publishing interactive web maps
-- building dashboards for accessibility monitoring
+This script:
+
+• extracts major east–west interstate highways  
+• builds **2-mile buffers around interstate corridors**  
+• builds **2-mile buffers around interstate exits**  
+• identifies restaurants accessible from both
+
+Outputs include:
+
+```
+east_west_interstates.geojson
+east_west_interstate_buffer_2mi.geojson
+interstate_exit_buffer_2mi.geojson
+restaurants_near_corridor.geojson
+restaurants_near_exits.geojson
+corridor_summary.csv
+exit_accessibility_summary.csv
+```
+
+---
+
+## 2️⃣ Distance Analysis
+
+```bash
+python scripts/distance_analysis.py
+```
+
+Calculates:
+
+- distance from each restaurant to nearest interstate
+- distance from each restaurant to nearest exit
+
+Outputs:
+
+```
+restaurant_distance_analysis.geojson
+restaurant_distance_analysis.csv
+```
+
+---
+
+## 3️⃣ Food Desert Detection
+
+```bash
+python scripts/food_desert_detection.py
+```
+
+This stage:
+
+- segments interstate corridors
+- measures distances between accessible restaurants
+- identifies **gaps greater than 50 miles**
+
+Outputs:
+
+```
+food_desert_gap_segments.geojson
+food_desert_gap_segments.csv
+food_desert_summary.csv
+```
+
+---
+
+# Output Example
+
+```
+Food desert summary:
+
+interstate  max_gap_mi
+I-70        193 miles
+I-90        165 miles
+I-40        152 miles
+I-80        128 miles
+I-10        117 miles
+```
+
+---
+
+# Visualization
+
+Outputs can be visualized directly in **QGIS**.
+
+Recommended layers:
+
+```
+east_west_interstates
+east_west_interstate_buffer_2mi
+restaurants_near_corridor
+food_desert_gap_segments
+```
+
+Suggested symbology:
+
+| Layer | Style |
+|------|------|
+| Interstates | black lines |
+| Corridor buffer | transparent grey |
+| Restaurants | small blue points |
+| Food deserts | thick red lines |
+
+---
+
+# Limitations
+
+This analysis currently uses **straight-line corridor accessibility**, not travel time.
+
+Future improvements could include:
+
+- network-based routing
+- travel-time analysis
+- gas station accessibility
+- service density models
+- traffic-weighted analysis
+
+---
+
+# Future Research Extensions
+
+Possible directions:
+
+• Network accessibility modeling  
+• Exit-level service infrastructure analysis  
+• Transportation planning applications  
+• Predictive service placement models  
 
 ---
 
 # Author
 
-**Kenneth Struck**  
-Master of Geoscience — Geographic Information Science & Technology  
-Texas A&M University
+**Kenneth Struck**
 
-Focus Areas:
-
-GIS • Python • Spatial Analytics • Transportation Geography
+Texas A&M University  
+Master of Geoscience — Geographic Information Science & Technology (GIS&T)
 
 ---
 
-# Portfolio Purpose
+# License
 
-This repository demonstrates the ability to design and implement a **full geospatial analysis pipeline** integrating:
+MIT License
 
-- automated spatial data collection
-- reproducible GIS workflows
-- transportation accessibility analysis
-- Python-based geospatial engineering
+---
 
-The project supports applications for:
+# Why This Project Is Interesting
 
-- GIS Analyst roles
-- Transportation GIS positions
-- Spatial Data Engineering roles
-- Geospatial research opportunities
+This project demonstrates how **Python GIS pipelines can scale to national datasets** containing:
+
+- **389,000+ restaurants**
+- **77,000+ interstate exits**
+- **1,200+ interstate segments**
+
+while automatically detecting infrastructure service gaps.
+
+It serves as an example of **large-scale geospatial data science applied to transportation accessibility.**
