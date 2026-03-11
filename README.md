@@ -58,7 +58,7 @@ Red segments represent **food deserts (>50 miles between restaurants)**.
 
 ```
 (Add exported map image here)
-![maps/interstate_food_deserts.png](https://github.com/Das-Panda/interstate-food-accessibility-gis/blob/main/maps/interstate_food_deserts.png)
+![Interstate Food Deserts](https://raw.githubusercontent.com/Das-Panda/interstate-food-accessibility-gis/main/maps/interstate_food_deserts.png)
 ```
 
 ---
@@ -330,5 +330,6 @@ This project demonstrates how **Python GIS pipelines can scale to national datas
 while automatically detecting infrastructure service gaps.
 
 It serves as an example of **large-scale geospatial data science applied to transportation accessibility.**
+
 
 
