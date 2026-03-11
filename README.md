@@ -306,7 +306,7 @@ Possible directions:
 Texas A&M University  
 Master of Geoscience — Geographic Information Science & Technology (GIS&T)
 
-University of North Texas
+University of North Texas  
 Bachelor of Science — Geographic Information Science & Computer Science  
 
 ---
@@ -328,6 +328,7 @@ This project demonstrates how **Python GIS pipelines can scale to national datas
 while automatically detecting infrastructure service gaps.
 
 It serves as an example of **large-scale geospatial data science applied to transportation accessibility.**
+
 
 
 
