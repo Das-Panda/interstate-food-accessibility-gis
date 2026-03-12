@@ -2,7 +2,11 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![GeoPandas](https://img.shields.io/badge/GeoPandas-Geospatial-green.svg)
+![QGIS](https://img.shields.io/badge/QGIS-Cartography-brightgreen.svg)
+![OpenStreetMap](https://img.shields.io/badge/Data-OpenStreetMap-lightgrey.svg)
+![TIGER/Line](https://img.shields.io/badge/Data-US%20Census%20TIGER-blue.svg)
 ![GIS](https://img.shields.io/badge/GIS-Spatial%20Analysis-orange.svg)
+![Status](https://img.shields.io/badge/Status-Version%201.0-success.svg)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)
 
 A national-scale geospatial analysis project that identifies **long stretches of U.S. interstate highways where drivers may travel large distances without access to nearby restaurants**.
@@ -328,6 +332,7 @@ This project demonstrates how **Python GIS pipelines can scale to national datas
 while automatically detecting infrastructure service gaps.
 
 It serves as an example of **large-scale geospatial data science applied to transportation accessibility.**
+
 
 
 
