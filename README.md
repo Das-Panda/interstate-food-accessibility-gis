@@ -1,5 +1,15 @@
 # Interstate Food Accessibility Analysis (United States)
 
+⚠️ **This branch contains the experimental Version 2 research upgrade.**  
+The stable Version 1.0 implementation is available on the `main` branch.
+
+Version 2 expands the project toward a more research-grade methodology, including:
+
+• Sensitivity analysis of corridor buffer assumptions  
+• Validation of accessibility gap thresholds  
+• Additional visualizations and figures  
+• Expanded methodological documentation
+
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![GeoPandas](https://img.shields.io/badge/GeoPandas-Geospatial-green.svg)
 ![QGIS](https://img.shields.io/badge/QGIS-Cartography-brightgreen.svg)
@@ -16,6 +26,34 @@ This project analyzes restaurant accessibility along **major east–west interst
 The analysis identifies **“interstate food deserts”** — highway segments where drivers must travel **more than 50 miles between restaurants located within 2 miles of the interstate corridor.**
 
 ---
+
+## Project Versions
+
+### Version 1.0 – Corridor Accessibility Model
+Stable implementation identifying interstate segments where drivers must travel more than **50 miles between restaurants within a 2-mile corridor**.
+
+Features:
+- Python geospatial analysis pipeline
+- National restaurant dataset (~389k POIs)
+- Interstate corridor buffering
+- Gap segment detection
+- QGIS visualization and cartography
+
+Branch: `main`
+
+---
+
+### Version 2.0 – Research Methodology Expansion (In Progress)
+
+This branch expands the project toward a **research-grade spatial analysis framework**.
+
+Planned improvements:
+
+- Sensitivity testing of corridor buffer distances (1–5 miles)
+- Alternative accessibility thresholds (30–75 mile gap definitions)
+- Additional regional visualizations
+- Improved documentation of methodological limitations
+- Potential integration of interstate exit accessibility modeling
 
 # Project Motivation
 
@@ -332,6 +370,7 @@ This project demonstrates how **Python GIS pipelines can scale to national datas
 while automatically detecting infrastructure service gaps.
 
 It serves as an example of **large-scale geospatial data science applied to transportation accessibility.**
+
 
 
 
