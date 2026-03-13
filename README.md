@@ -16,7 +16,7 @@ Version 2 expands the project toward a more research-grade methodology, includin
 ![OpenStreetMap](https://img.shields.io/badge/Data-OpenStreetMap-lightgrey.svg)
 ![TIGER/Line](https://img.shields.io/badge/Data-US%20Census%20TIGER-blue.svg)
 ![GIS](https://img.shields.io/badge/GIS-Spatial%20Analysis-orange.svg)
-![Status](https://img.shields.io/badge/Status-Version%201.0-success.svg)
+![Status](https://img.shields.io/badge/Status-Research%20Upgrade-yellow.svg)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)
 
 A national-scale geospatial analysis project that identifies **long stretches of U.S. interstate highways where drivers may travel large distances without access to nearby restaurants**.
@@ -54,6 +54,19 @@ Planned improvements:
 - Additional regional visualizations
 - Improved documentation of methodological limitations
 - Potential integration of interstate exit accessibility modeling
+
+# Research Context
+
+Transportation accessibility and rural service availability are important
+considerations in infrastructure planning.
+
+While many studies examine food deserts within urban environments,
+far fewer analyses explore **service accessibility along long-distance
+transportation corridors**.
+
+This project applies geospatial analysis techniques to examine
+restaurant accessibility along U.S. interstate highways and identify
+segments where drivers may encounter unusually long service gaps.
 
 # Project Motivation
 
@@ -98,6 +111,7 @@ The map below highlights segments of interstate corridors where drivers may enco
 Red segments represent **food deserts (> 50 miles between restaurants).**
 
 ![Interstate Food Deserts](maps/interstate_food_deserts.png)
+*Figure 1 – Identified interstate food desert segments (>50 miles between accessible restaurants).*
 ---
 
 # Project Workflow
@@ -190,7 +204,7 @@ requirements.txt
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/interstate_food_accessibility_gis.git
+git clone git clone https://github.com/Das-Panda/interstate-food-accessibility-gis.git
 cd interstate_food_accessibility_gis
 ```
 
@@ -316,7 +330,7 @@ Suggested symbology:
 
 ---
 
-# Limitations
+# Methodological Limitations
 
 This analysis currently uses **straight-line corridor accessibility**, not travel time.
 
@@ -370,6 +384,7 @@ This project demonstrates how **Python GIS pipelines can scale to national datas
 while automatically detecting infrastructure service gaps.
 
 It serves as an example of **large-scale geospatial data science applied to transportation accessibility.**
+
 
 
 
